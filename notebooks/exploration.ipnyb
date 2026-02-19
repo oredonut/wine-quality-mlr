@@ -1,0 +1,10 @@
+import matplotlib.pyplot as plt
+
+residuals = y_test - model.predict(X_test)
+
+plt.scatter(model.predict(X_test), residuals)
+plt.axhline(y=0)
+plt.xlabel("Predicted Values")
+plt.ylabel("Residuals")
+plt.title("Residual Plot")
+plt.show()
