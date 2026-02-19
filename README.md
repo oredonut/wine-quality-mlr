@@ -181,7 +181,7 @@ See [SETUP.md](SETUP.md) for a full guide on swapping datasets, adjusting prepro
 
 | | |
 |-|-|
-| **Name** | Oloyede Al-amin Oladapo |
+| **Name** | xanesfkasmurftyy |
 | **Course** | COS-201 |
 | **Institution** | University of Lagos |
 | **Year** | 2026 |
