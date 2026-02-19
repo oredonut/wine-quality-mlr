@@ -2,7 +2,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 
 def preprocess_data(df):
-    df = pd.get_dummies(df, drop_first=True)
+    df = pd.get_dummies(df, drop_first=True, dtype=int)
 
     x = df.drop("charges", axis=1)
     y = df["charges"]

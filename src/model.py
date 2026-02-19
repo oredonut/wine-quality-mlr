@@ -1,4 +1,4 @@
-from sk.learn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression
 
 def train_model(x_train, y_train):
     model = LinearRegression()
