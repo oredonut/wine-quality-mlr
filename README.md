@@ -263,8 +263,7 @@ Decision Support Systems, Elsevier, 47(4):547-553, 2009.
 | **Course Title** | [Cos-201] |
 | **University** | [University Name] |
 | **Academic Year** | 2026 |
-| **Submission Date** | [Date] |
-
+| 
 ---
 
 ## Acknowledgments
