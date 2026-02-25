@@ -1,187 +1,278 @@
-# Multiple Linear Regression on Medical Insurance Cost Dataset
+# Wine Quality Prediction using Multiple Linear Regression
 
-## Project Overview
+## Overview
 
-This project implements a Supervised Machine Learning model to predict individual medical insurance costs using Multiple Linear Regression.
+A supervised machine learning implementation that predicts wine quality scores using Multiple Linear Regression. This project demonstrates a complete ML workflow—from data preprocessing to model evaluation—using the UCI Wine Quality dataset for red wines.
 
-The objective is to demonstrate a complete machine learning workflow — from data preprocessing and categorical encoding to model training and evaluation — using a real-world dataset of 1,338 medical records.
-
-The model estimates medical insurance charges based on demographic and health-related attributes and identifies key factors influencing healthcare expenditure.
+The model estimates wine quality based on physicochemical attributes and identifies key factors influencing quality scores.
 
 ---
 
-## Dataset Description
+## Dataset
 
-- **Total Records:** 1,338
-- **Total Features:** 6 input variables + 1 target variable
-- **Target Variable:** `charges` — Individual medical insurance cost
+**Source:** [UCI Machine Learning Repository - Wine Quality Dataset](https://archive.ics.uci.edu/ml/datasets/wine+quality)
 
-| Feature  | Description |
-|----------|-------------|
-| Age      | Age of the primary beneficiary |
-| Sex      | Gender of the insurance contractor (female, male) |
-| BMI      | Body Mass Index (kg/m²) |
-| Children | Number of dependents covered by insurance |
-| Smoker   | Smoking status (yes, no) |
-| Region   | Residential area in the US (northeast, southeast, southwest, northwest) |
+| Property | Value |
+|----------|-------|
+| **Records** | 1,599 |
+| **Features** | 11 input variables |
+| **Target** | `quality` (integer: 0-10) |
+
+### Features Description
+
+| Feature | Description |
+|---------|-------------|
+| `fixed_acidity` | Fixed acids content (g/dm³) |
+| `volatile_acidity` | Volatile acids content (g/dm³) |
+| `citric_acid` | Citric acid content (g/dm³) |
+| `residual_sugar` | Residual sugar after fermentation (g/dm³) |
+| `chlorides` | Salt content (g/dm³) |
+| `free_sulfur_dioxide` | Free SO₂ content (mg/dm³) |
+| `total_sulfur_dioxide` | Total SO₂ content (mg/dm³) |
+| `density` | Wine density (g/cm³) |
+| `pH` | Acidity level (0-14 scale) |
+| `sulphates` | Sulphate content (g/dm³) |
+| `alcohol` | Alcohol percentage (% vol) |
 
 ---
 
 ## Methodology
 
-This project follows a structured machine learning pipeline:
-
 ### 1. Data Preprocessing
-- Dataset loading and validation
-- Verification of data types
-- Handling of missing values (if present)
+- Load Wine Quality dataset
+- Verify data types and structure
+- Handle missing values (if present)
+- Validate feature distributions
 
-### 2. Feature Encoding
-Categorical variables (`sex`, `smoker`, `region`) are converted into numerical format using **One-Hot Encoding**. This prevents implied ordinal relationships and the dummy variable trap (by dropping one category).
+### 2. Feature Engineering
+- All features are numeric (no encoding required)
+- Separate target variable (`quality`) from feature set
+- Optional: Feature scaling/normalization
 
-### 3. Data Partitioning
-The dataset is split into:
-- **80%** Training Set
-- **20%** Testing Set
-
-This ensures evaluation on unseen data to assess generalization performance.
+### 3. Train-Test Split
+```
+Training Set: 80% (1,279 samples)
+Testing Set:  20% (320 samples)
+```
+Ensures unbiased evaluation on unseen data.
 
 ### 4. Model Training
-A Multiple Linear Regression model is trained using:
 
-$$y = \beta_0 + \beta_1x_1 + \beta_2x_2 + ... + \beta_nx_n + \epsilon$$
+**Multiple Linear Regression:**
+```
+y = β₀ + β₁x₁ + β₂x₂ + ... + βₙxₙ + ε
+```
 
-Where **β** represents learned coefficients and **ϵ** represents residual error.
+Where:
+- `y` = predicted quality score
+- `β₀` = intercept
+- `βᵢ` = learned coefficients
+- `xᵢ` = feature values
+- `ε` = residual error
 
-### 5. Model Evaluation
-The model is evaluated using:
-- **Mean Squared Error (MSE)**
-- **R² Score** (Coefficient of Determination)
+### 5. Evaluation Metrics
+
+| Metric | Formula | Purpose |
+|--------|---------|---------|
+| **MSE** | `(1/n)Σ(yᵢ - ŷᵢ)²` | Average squared prediction error |
+| **R²** | `1 - (SS_res / SS_tot)` | Proportion of variance explained |
 
 ---
 
 ## Project Structure
-
 ```
-medical-cost-mlr/
+wine-quality-mlr/
 │
-├── data/                   # Dataset files
-├── notebooks/              # Exploratory Data Analysis (EDA)
-├── src/                    # Modular source code
-│   ├── data_loader.py
-│   ├── preprocessing.py
-│   ├── model.py
-│   ├── evaluate.py
-│   └── visualize.py
+├── data/
+│   └── winequality-red.csv       # Dataset
+│
+├── notebooks/
+│   └── exploratory.ipynb 
+│
+├── src/
+│   ├── __init__.py
+│   ├── data_loader.py             # Dataset loading utilities
+│   ├── preprocessing.py           # Data cleaning & splitting
+│   ├── model.py                   # MLR training logic
+│   ├── evaluate.py                # Performance metrics
+│   └── visualize.py               # Plotting utilities
 │
 ├── scripts/
-│   └── download_data.sh    # Dataset download script
+│   └── download_data.ps1          # Automated data download
 │
-├── main.py                 # Pipeline entry point
-├── requirements.txt        # Dependencies
-└── README.md
+├── main.py                        # Main pipeline script
+├── requirements.txt               # Python dependencies
+└── README.md                      # This file
 ```
 
 ---
 
-## How to Run the Project
+## Installation & Usage
 
-### 1. Clone the Repository
+### Prerequisites
+
+- Python 3.8+
+- pip package manager
+- (Optional) PowerShell for Windows users
+
+### Step 1: Clone Repository
 ```bash
-git clone https://github.com/smurftyy/medical-cost-mlr.git
-cd medical-cost-mlr
+git clone https://github.com/yourusername/wine-quality-mlr.git
+cd wine-quality-mlr
 ```
 
-### 2. Create a Virtual Environment
-```bash
-python3 -m venv venv
-source venv/bin/activate
+### Step 2: Create Virtual Environment
+
+**Windows (PowerShell):**
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate
 ```
 
-### 3. Install Dependencies
+**macOS/Linux:**
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+### Step 3: Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Download the Dataset
+### Step 4: Download Dataset
+
+**Windows (PowerShell):**
+```powershell
+mkdir -Force .\data
+Invoke-WebRequest -Uri "https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv" -OutFile ".\data\winequality-red.csv"
+```
+
+**macOS/Linux:**
 ```bash
 mkdir -p data
-curl -L -o data/insurance.csv \
-https://raw.githubusercontent.com/stedy/Machine-Learning-with-R-datasets/master/insurance.csv
+curl -o data/winequality-red.csv "https://archive.ics.uci.edu/ml/machine-learning-databases/wine-quality/winequality-red.csv"
 ```
 
-Or run the script:
-```bash
-bash scripts/download_data.sh
-```
-
-### 5. Execute the Model
+### Step 5: Run Pipeline
 ```bash
 python main.py
 ```
+
+**Output:**
+- Model performance metrics printed to console
+- `residual_plot.png` saved to project root
+- Trained model coefficients displayed
 
 ---
 
 ## Results
 
+### Performance Metrics
+
 | Metric | Value |
 |--------|-------|
-| Mean Squared Error (MSE) | 33,596,915.85 |
-| R² Score | 0.7836 |
+| **Mean Squared Error (MSE)** | 0.3900 |
+| **R² Score** | 0.4032 |
 
-**Residual Plot:**
+**Interpretation:** The R² score of 0.4032 indicates that approximately 40.32% of the variance in wine quality is explained by the physicochemical features. This moderate R² value suggests that while the linear model captures some relationships between chemical properties and quality, there are additional factors (potentially nonlinear relationships or unmeasured variables) that influence wine quality.
 
-After running `python main.py`, a residual plot is automatically generated and saved as `residual_plot.png` in the project root directory. The plot shows predicted values against residuals to validate linear regression assumptions.
+### Residual Analysis
 
-![Residual Plot](residual_plot.png)
+A residual plot (`residual_plot.png`) is automatically generated to validate regression assumptions:
+- **Random scatter:** Indicates linear relationship holds
+- **Pattern/curve:** Suggests nonlinear relationships exist
+- **Funnel shape:** Indicates heteroscedasticity
+
+The residual plot helps diagnose:
+- Linearity of the model
+- Homoscedasticity (constant variance)
+- Independence of errors
 
 ---
 
-## Interpretation
+## Model Analysis
 
-The R² score of **0.7836** indicates that approximately **78% of the variance** in medical insurance charges is explained by the model.
+### Key Observations
 
-| Feature | Coefficient |
-|---------|-------------|
-| smoker_yes | +$23,651.13 |
-| children | +$425.28 |
-| bmi | +$337.09 |
-| age | +$256.98 |
-| sex_male | -$18.59 |
-| region_northwest | -$370.68 |
-| region_southeast | -$657.86 |
-| region_southwest | -$809.80 |
+1. **Model Performance:** The MSE of 0.39 indicates that, on average, predictions deviate from actual quality scores by approximately 0.62 points (√MSE).
 
-The feature with the strongest positive influence is **smoker_yes**. Being a smoker increases predicted charges by approximately **$23,651**, holding all other variables constant — dwarfing every other factor including age and BMI.
+2. **Explained Variance:** With 40.32% of variance explained, the model demonstrates moderate predictive capability. The remaining 59.68% of variance suggests:
+   - Nonlinear relationships between features and quality
+   - Potential feature interactions not captured
+   - Influence of unmeasured factors (e.g., grape variety, wine age, storage conditions)
+
+3. **Practical Implications:** The model can provide reasonable quality estimates for wine production monitoring, though additional features or more complex models may improve accuracy.
 
 ---
 
 ## Limitations
 
-- Assumes a linear relationship between features and target
-- Sensitive to multicollinearity
-- Cannot capture nonlinear interactions without feature engineering
+- **Linearity Assumption:** Model assumes linear relationships between features and target, which may not capture complex chemical interactions
+- **Multicollinearity:** Correlated features (e.g., density and alcohol content) may inflate coefficient variance
+- **Feature Interactions:** Does not capture nonlinear interactions without explicit engineering
+- **Outlier Sensitivity:** Linear regression is sensitive to extreme values in both features and target
+- **Limited Variance Explained:** R² of 0.40 suggests significant unexplained variance remains
 
 ---
 
-## Future Improvements
+## Future Enhancements
 
-- Implement Ridge and Lasso Regression for regularization
-- Perform cross-validation for more robust evaluation
-- Investigate feature interactions and polynomial regression
-- Conduct residual diagnostics to validate regression assumptions
-## Reusability
+- [ ] Implement **Ridge** and **Lasso Regression** for regularization to handle multicollinearity
+- [ ] Add **cross-validation** (k-fold) for robust performance estimation
+- [ ] Engineer **polynomial features** to capture nonlinear relationships
+- [ ] Perform **residual diagnostics** (Q-Q plots, Durbin-Watson test) for assumption validation
+- [ ] Investigate **feature interactions** and **principal component analysis (PCA)**
+- [ ] Compare with tree-based models (Random Forest, Gradient Boosting) for performance benchmarking
+- [ ] Implement feature importance analysis to identify most influential predictors
 
-This project is designed to be adaptable to other regression datasets with minimal changes.
-
-See [SETUP.md](SETUP.md) for a full guide on swapping datasets, adjusting preprocessing, and customizing the pipeline.
 ---
 
-## Author
+## Dependencies
+```txt
+numpy>=1.21.0
+pandas>=1.3.0
+scikit-learn>=1.0.0
+matplotlib>=3.4.0
+seaborn>=0.11.0
+```
 
-| | |
-|-|-|
-| **Name** | xanesfkasmurftyy |
-| **Course** | COS-201 |
-| **Institution** | University of Lagos |
-| **Year** | 2026 |
+Install via:
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+## Citation
+
+**Dataset Source:**
+```
+P. Cortez, A. Cerdeira, F. Almeida, T. Matos and J. Reis. 
+Modeling wine preferences by data mining from physicochemical properties.
+Decision Support Systems, Elsevier, 47(4):547-553, 2009.
+```
+
+---
+
+## Assignment Information
+
+| Field | Details |
+|-------|---------|
+| **Student Name** | Odebiyi Aanuoluwapo |
+| **Course Title** | [Cos-201] |
+| **University** | [University Name] |
+| **Academic Year** | 2026 |
+| **Submission Date** | [Date] |
+
+---
+
+## Acknowledgments
+
+- UCI Machine Learning Repository for providing the Wine Quality dataset
+- scikit-learn contributors for the robust machine learning library
+- Course instructors for project guidance and support
+
+---
+
+**Project Submitted:** 2026
